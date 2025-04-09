@@ -4,27 +4,31 @@
 #include <cmath> // sqrt()
 #include <cstdlib>
 #include <vector>
-#include <unistd.h>
+// #include <unistd.h>
 #include <mutex>
 #include <semaphore>
-
+#include <chrono>
 
 using namespace std;
 
 /* ========== DEMO 0: Thread Functions  ========== */
 
-void _read0(string thName) {
+void _read0(string thName)
+{
   // 'read' function stand-in
-  for(int i = 0; i < 50; i++) {
-    usleep(1*1000);
+  for (int i = 0; i < 50; i++)
+  {
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
     cout << thName;
   }
 }
 
-void _write0(string thName) {
+void _write0(string thName)
+{
   // 'write' function stand-in
-  for(int i = 0; i < 50; i++) {
-    usleep(1*1000);
+  for (int i = 0; i < 50; i++)
+  {
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
     cout << thName;
   }
 }
@@ -36,50 +40,53 @@ counting_semaphore Srw(1);
 counting_semaphore Sts(1);
 counting_semaphore m(1);
 
-void _read1(string thName) {
+void _read1(string thName)
+{
 
   Sts.acquire();
-  usleep(50*1000);
+  std::this_thread::sleep_for(std::chrono::milliseconds(50));
   Sts.release();
 
   m.acquire();
   readersNum++;
-  if ( readersNum == 1 ) {
-    Srw.acquire(); 
+  if (readersNum == 1)
+  {
+    Srw.acquire();
   }
   m.release();
 
-
   // 'read' function stand-in
-  for(int i = 0; i < 50; i++) {
-    usleep(1*1000);
+  for (int i = 0; i < 50; i++)
+  {
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
     cout << thName;
   }
 
-
   m.acquire();
   readersNum--;
-  if ( readersNum == 0 ) {
+  if (readersNum == 0)
+  {
     Srw.release();
   }
   m.release();
 }
 
-
-void _write1(string thName) {
+void _write1(string thName)
+{
 
   Sts.acquire();
-  usleep(50*1000);
+  std::this_thread::sleep_for(std::chrono::milliseconds(50));
   Sts.release();
 
   Srw.acquire();
 
   // 'write' function stand-in
-  for(int i = 0; i < 50; i++) {
-    usleep(1*1000);
+  for (int i = 0; i < 50; i++)
+  {
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
     cout << thName;
   }
-  
+
   Srw.release();
 }
 
@@ -87,8 +94,8 @@ void _write1(string thName) {
 
 int main()
 {
-  cout << "\nMAIN: START\n"; 
-  
+  cout << "\nMAIN: START\n";
+
   /* ===== DEM0 0: Read ===== */
   cout << "\n===== DEMO 0: START =====\n";
   cout << "INFO: Readers & Writers (No Synchronization)\n";
@@ -110,7 +117,7 @@ int main()
   W01.join();
   W02.join();
   cout << "\n===== DEMO 0:END =====\n";
-  
+
   /* ===== DEM0 4b: Readers-Writers Problem ===== */
   cout << "\n===== DEMO 1: START =====\n";
   cout << "INFO: Readers and Writers (with Synchronization)\n";
@@ -143,13 +150,7 @@ int main()
   R0.join();
   cout << "\n===== DEMO 1:END =====\n";
 
-
-
-  cout << "\nMAIN: END\n"; 
+  cout << "\nMAIN: END\n";
 
   return 0;
 }
-
-
-
-

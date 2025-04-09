@@ -4,47 +4,55 @@
 #include <cmath> // sqrt()
 #include <cstdlib>
 #include <vector>
-#include <unistd.h>
 #include <mutex>
 #include <semaphore>
-
 
 using namespace std;
 
 /* ========== Print Functions ========== */
 
-void a() {
-  for (int i = 0; i < 100; i++) {
+void a()
+{
+  for (int i = 0; i < 100; i++)
+  {
     cout << "a";
   }
 }
 
-void b() {
-  for (int i = 0; i < 100; i++) {
+void b()
+{
+  for (int i = 0; i < 100; i++)
+  {
     cout << "b";
   }
 }
 
-void X() {
-  for (int i = 0; i < 100; i++) {
+void X()
+{
+  for (int i = 0; i < 100; i++)
+  {
     cout << "X";
   }
 }
 
-void Y() {
-  for (int i = 0; i < 100; i++) {
+void Y()
+{
+  for (int i = 0; i < 100; i++)
+  {
     cout << "Y";
   }
 }
 
 /* ========== Thread Functions ========== */
 
-void T1() {
+void T1()
+{
   a();
   b();
 }
 
-void T2() {
+void T2()
+{
   X();
   Y();
 }
@@ -53,13 +61,15 @@ void T2() {
 
 counting_semaphore Sa(0);
 
-void T3() {
+void T3()
+{
   a();
   Sa.release(); // This signal/release indicates call a()'s completion.
   b();
 }
 
-void T4() {
+void T4()
+{
   X();
   Sa.acquire(); // Waiting/aqcuiring Sa is a thread barrier.
   cout << " | ";
@@ -71,19 +81,21 @@ void T4() {
 counting_semaphore SA(0); // a < Y
 counting_semaphore SX(0); // X < b
 
-void T5() {
+void T5()
+{
   a();
   SA.release();
-  
+
   SX.acquire();
   cout << " / ";
   b();
 }
 
-void T6() {
+void T6()
+{
   X();
   SX.release();
-  
+
   SA.acquire();
   cout << " | ";
   Y();
@@ -93,7 +105,7 @@ void T6() {
 
 int main()
 {
-  cout << "\nMAIN: START\n"; 
+  cout << "\nMAIN: START\n";
 
   /* ===== DEMO 0: No Thread Barrier (No Synchronization) ===== */
 
@@ -104,9 +116,9 @@ int main()
   thread1.join();
   thread2.join();
   cout << "\n\n===== DEMO 0:END =====\n\n";
-  
+
   /* ===== DEMO 1: Thread Barrier Synchronization (via Semaphore) ===== */
-  
+
   cout << "\n===== DEMO 1:START =====\n";
   cout << "INFO: Thread Barrier (a | Y) via Semaphore\n\n";
   thread thread3(T3);
@@ -125,12 +137,7 @@ int main()
   thread6.join();
   cout << "\n\n===== DEMO 2:END =====\n";
 
-
-  cout << "\nMAIN: END\n"; 
+  cout << "\nMAIN: END\n";
 
   return 0;
 }
-
-
-
-

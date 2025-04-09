@@ -4,25 +4,26 @@
 #include <cmath> // sqrt()
 #include <cstdlib>
 #include <vector>
-#include <unistd.h>
+// #include <unistd.h>
 #include <mutex>
 #include <semaphore>
-
 
 using namespace std;
 
 /* ========== DEMO 0: Thread Functions ========== */
 
-int count = 0;
+int counter = 0;
 
-void produce(string thName) {
-  count++;
-  cout << thName << " count = " << count << "\n";
+void produce(string thName)
+{
+  counter++;
+  cout << thName << " count = " << counter << "\n";
 }
 
-void consume(string thName) {
-  count--;
-  cout << thName << " count = " << count << "\n";
+void consume(string thName)
+{
+  counter--;
+  cout << thName << " count = " << counter << "\n";
 }
 
 /* ========== DEMO 1: Thread Functions ========== */
@@ -31,36 +32,37 @@ counting_semaphore m(1);
 counting_semaphore Sbuff(3);
 counting_semaphore Sp(0);
 
-void _produce(string thName) {
+void produceSync(string thName)
+{
 
   Sbuff.acquire();
 
   m.acquire();
-  count++;
-  cout << thName << " count = " << count << "\n";
+  counter++;
+  cout << thName << " count = " << counter << "\n";
   m.release();
 
   Sp.release();
 }
 
-void _consume(string thName) {
+void consumeSync(string thName)
+{
 
   Sp.acquire();
 
   m.acquire();
-  count--;
-  cout << thName << " count = " << count << "\n";
+  counter--;
+  cout << thName << " count = " << counter << "\n";
   m.release();
 
   Sbuff.release();
-
 }
 
 /* =============== MAIN =============== */
 
 int main()
 {
-  cout << "\nMAIN: START\n"; 
+  cout << "\nMAIN: START\n";
 
   /* ===== DEMO 0: No Synchronization ===== */
 
@@ -86,39 +88,33 @@ int main()
   C5.join();
   P5.join();
   cout << "===== DEMO 0:END =====\n\n";
-  
+
   /* ===== DEMO 1: Bounded Producer-Consumer Synchronized ===== */
-  
+
   cout << "\n===== DEMO 1: START: Bounded Producer-Consumer Synchronized =====\n";
-  thread _C1(_consume, "C1");
-  thread _P1(_produce, "P1");
-  thread _P2(_produce, "P2");
-  thread _P3(_produce, "P3");
-  thread _P4(_produce, "P4");
-  thread _P5(_produce, "P5");
-  thread _C2(_consume, "C2");
-  thread _C3(_consume, "C3");
-  thread _C4(_consume, "C4");
-  thread _C5(_consume, "C5");
-  _C1.join();
-  _P1.join();
-  _C2.join();
-  _P2.join();
-  _C3.join();
-  _P3.join();
-  _C4.join();
-  _P4.join();
-  _C5.join();
-  _P5.join();
+  thread C1Sync(consumeSync, "C1");
+  thread P1Sync(produceSync, "P1");
+  thread P2Sync(produceSync, "P2");
+  thread P3Sync(produceSync, "P3");
+  thread P4Sync(produceSync, "P4");
+  thread P5Sync(produceSync, "P5");
+  thread C2Sync(consumeSync, "C2");
+  thread C3Sync(consumeSync, "C3");
+  thread C4Sync(consumeSync, "C4");
+  thread C5Sync(consumeSync, "C5");
+  C1Sync.join();
+  P1Sync.join();
+  C2Sync.join();
+  P2Sync.join();
+  C3Sync.join();
+  P3Sync.join();
+  C4Sync.join();
+  P4Sync.join();
+  C5Sync.join();
+  P5Sync.join();
   cout << "===== DEMO 1:END =====\n\n";
 
-
-
-  cout << "\nMAIN: END\n"; 
+  cout << "\nMAIN: END\n";
 
   return 0;
 }
-
-
-
-
