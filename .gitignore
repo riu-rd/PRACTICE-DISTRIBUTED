@@ -1,0 +1,23 @@
+# -----------------------------
+# Ignore all MP4 video files
+# -----------------------------
+*.mp4
+
+# If you only want to ignore the specific MP4 files listed,
+# comment out the above line and use the following instead:
+# Assignment 0, 1, 2/Ardales_Assignment_1.mp4
+# Assignment 0, 1, 2/Ardales_Basic_Threads.mp4
+# Assignment 0 - Basic Threads.mp4
+# Assignment 0/Ardales_Demo1.mp4
+# Problem Set 1/Submissions/Ardales_Demo1.mp4
+# Ardales_Demo2.mp4
+
+
+# -----------------------------
+# Ignore specific text/data files
+# -----------------------------
+graph-nd-5m
+graph1.txt
+graph2.txt
+Problem Set 1/graph1.txt
+Problem Set 1/graph2.txt

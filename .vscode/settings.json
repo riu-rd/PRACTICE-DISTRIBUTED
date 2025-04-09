@@ -1,0 +1,28 @@
+{
+  "files.associations": {
+    "iostream": "cpp",
+    "thread": "cpp",
+    "ostream": "cpp",
+    "unordered_set": "cpp",
+    "iosfwd": "cpp",
+    "istream": "cpp",
+    "limits": "cpp",
+    "xstring": "cpp",
+    "unordered_map": "cpp",
+    "vector": "cpp",
+    "initializer_list": "cpp",
+    "list": "cpp",
+    "type_traits": "cpp",
+    "xhash": "cpp",
+    "xutility": "cpp",
+    "string": "cpp",
+    "cmath": "cpp",
+    "map": "cpp",
+    "xtree": "cpp",
+    "chrono": "cpp",
+    "deque": "cpp",
+    "format": "cpp",
+    "forward_list": "cpp",
+    "xiosbase": "cpp"
+  }
+}
